@@ -4,15 +4,15 @@ steps:
     args:
       - -c
       - |
-        echo "⏬ Authenticating GKE"
-        gcloud container clusters get-credentials $_CLUSTER_NAME --region=$_REGION
+        echo "⏬ Authenticating with GKE (zonal)"
+        gcloud container clusters get-credentials $_CLUSTER_NAME --zone=$_ZONE
 
-        echo "🚀 Deploying to GKE..."
+        echo "�� Deploying Brain Tasks App to GKE..."
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
 
 substitutions:
-  _REGION: us-central1
+  _ZONE: us-central1-a
   _CLUSTER_NAME: gke-cluster
 
 options:
