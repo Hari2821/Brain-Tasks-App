@@ -1,5 +1,5 @@
 options:
-  logging: CLOUD_LOGGING_ONLY  # ✅ Sends logs to Cloud Logging (no GCS bucket needed)
+  logging: CLOUD_LOGGING_ONLY
 
 steps:
   # 🔨 Build Docker image
@@ -19,7 +19,7 @@ steps:
         'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA'
       ]
 
-  # �� Deploy via Cloud Deploy
+  # 🚀 Deploy via Cloud Deploy
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:

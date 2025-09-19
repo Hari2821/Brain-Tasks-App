@@ -1,11 +1,18 @@
-# Use Nginx to serve static files
-FROM nginx:alpine
+# Use base image
+FROM node:18
 
-# Copy built static files into nginx web directory
-COPY . /usr/share/nginx/html
+# Set working directory
+WORKDIR /app
 
-# Expose Nginx default port
-EXPOSE 80
+# Copy all files
+COPY . .
 
-# Run nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Install dependencies
+RUN npm install
+
+# Expose app port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
+
