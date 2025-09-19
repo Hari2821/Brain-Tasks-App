@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: brain-tasks
-          image: us-central1-docker.pkg.dev/astute-ace-286718/docker-repo/brain-tasks-app:latest
+          image: brain-tasks-app  # Replaced at deploy time by Cloud Deploy
           ports:
             - containerPort: 80
 
