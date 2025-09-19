@@ -1,0 +1,30 @@
+steps:
+  # 🔨 Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build', '-t',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA',
+        '.'
+      ]
+
+  # 🚀 Push Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA'
+      ]
+
+  # 📦 Deploy via Cloud Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        'deploy', 'releases', 'create', 'rel-$SHORT_SHA',
+        '--delivery-pipeline=brain-tasks-pipeline',
+        '--region=us-central1',
+        '--source=.',
+        '--images=brain-tasks-app=us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA'
+      ]
+
