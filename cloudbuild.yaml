@@ -15,5 +15,6 @@ substitutions:
   _REGION: us-central1
   _CLUSTER_NAME: gke-cluster
 
-timeout: 600s
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
