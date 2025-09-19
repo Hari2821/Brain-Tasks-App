@@ -13,8 +13,8 @@ spec:
         app: brain-tasks
     spec:
       containers:
-        - name: brain-tasks
-          image: brain-tasks-app  # Replaced by Cloud Deploy
+        - name: brain-tasks-container
+          image: hari2821/brain-tasks-app:latest
           ports:
             - containerPort: 3000
 

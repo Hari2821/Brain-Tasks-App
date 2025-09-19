@@ -2,19 +2,17 @@ apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
   name: brain-tasks-pipeline
-description: Pipeline for Brain Tasks App
+description: GKE delivery pipeline
 serialPipeline:
   stages:
-    - targetId: brain-tasks-target
+    - targetId: gke-target
       profiles: []
-
 ---
-
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
 metadata:
-  name: brain-tasks-target
-description: GKE target for Brain Tasks App
+  name: gke-target
 gke:
-  cluster: projects/astute-ace-286718/locations/us-central1-a/clusters/brain-tasks-cluster
+  cluster: projects/astute-ace-286718/locations/us-central1/clusters/gke-cluster
+  internalIp: false
 

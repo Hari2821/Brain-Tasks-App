@@ -4,7 +4,7 @@ FROM node:18
 # Set working directory
 WORKDIR /app
 
-# Copy all files
+# Copy files
 COPY . .
 
 # Install dependencies
@@ -15,4 +15,3 @@ EXPOSE 3000
 
 # Start the app
 CMD ["npm", "start"]
-

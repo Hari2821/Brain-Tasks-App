@@ -1,33 +1,19 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
-
 steps:
-  # 🔨 Build Docker image
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
     args:
-      [
-        'build', '-t',
-        'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA',
-        '.'
-      ]
+      - -c
+      - |
+        echo "⏬ Authenticating GKE"
+        gcloud container clusters get-credentials $_CLUSTER_NAME --region=$_REGION
 
-  # 🚀 Push Docker image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'push',
-        'us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA'
-      ]
+        echo "🚀 Deploying to GKE..."
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
 
-  # 🚀 Deploy via Cloud Deploy
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-      [
-        'deploy', 'releases', 'create', 'rel-$SHORT_SHA',
-        '--delivery-pipeline=brain-tasks-pipeline',
-        '--region=us-central1',
-        '--source=.',
-        '--images=brain-tasks-app=us-central1-docker.pkg.dev/$PROJECT_ID/docker-repo/brain-tasks-app:$SHORT_SHA'
-      ]
+substitutions:
+  _REGION: us-central1
+  _CLUSTER_NAME: gke-cluster
+
+timeout: 600s
 
