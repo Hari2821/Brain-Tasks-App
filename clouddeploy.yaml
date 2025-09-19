@@ -17,5 +17,4 @@ metadata:
 description: GKE target for Brain Tasks App
 gke:
   cluster: projects/astute-ace-286718/locations/us-central1-a/clusters/brain-tasks-cluster
-  location: us-central1
 
