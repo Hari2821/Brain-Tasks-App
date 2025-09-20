@@ -1,0 +1,31 @@
+Specify a build.logs_bucket: Define a specific Cloud Storage bucket where the build logs will be stored. This gives you full control over the log storage.
+Code
+
+    steps:
+    - name: 'gcr.io/cloud-builders/gcloud'
+      args: ['builds', 'submit', '--tag', 'gcr.io/$PROJECT_ID/my-image']
+    serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/my-custom-sa@$PROJECT_ID.iam.gserviceaccount.com'
+    logsBucket: 'gs://my-custom-logs-bucket'
+Use REGIONAL_USER_OWNED_BUCKET for default logs bucket behavior: Configure your build options to use a regional, user-owned bucket for logs by default. This setting is typically applied at the project level.
+Code
+
+    options:
+      defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+Use CLOUD_LOGGING_ONLY or NONE logging options: Configure the build to send logs only to Cloud Logging or to not store logs at all.
+CLOUD_LOGGING_ONLY: Logs are sent to Cloud Logging and not stored in a Cloud Storage bucket.
+Code
+
+        steps:
+        - name: 'gcr.io/cloud-builders/gcloud'
+          args: ['builds', 'submit', '--tag', 'gcr.io/$PROJECT_ID/my-image']
+        serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/my-custom-sa@$PROJECT_ID.iam.gserviceaccount.com'
+        logging: CLOUD_LOGGING_ONLY
+NONE: No build logs are stored or sent to Cloud Logging. This is generally not recommended for most scenarios as it hinders debugging.
+Code
+
+        steps:
+        - name: 'gcr.io/cloud-builders/gcloud'
+          args: ['builds', 'submit', '--tag', 'gcr.io/$PROJECT_ID/my-image']
+        serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/my-custom-sa@$PROJECT_ID.iam.gserviceaccount.com'
+        logging: NONE
+Choose one of these options and modify your cloudbuild.yaml file or Cloud Build trigger configuration accordingly to resolve the error. Ensure the specified service account has the necessary permissions (e.g., roles/logging.logWriter for CLOUD_LOGGING_ONLY or roles/storage.objectCreator for logsBucket) if you are using a custom service account and log storage option.
