@@ -1,0 +1,14 @@
+version: 0.0
+Resources:
+  - myApplication:
+      Type: Kubernetes
+      Properties:
+        ClusterName: brain-tasks-cluster
+        Namespace: default
+        ResourceType: manifest
+        # YAMLs must be committed inside `kubernetes/`
+        # Update these paths based on your repo structure
+        ResourceNames:
+          - kubernetes/deployment.yaml
+          - kubernetes/service.yaml
+
