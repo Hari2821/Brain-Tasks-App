@@ -1,29 +1,25 @@
 version: 0.2
 
-env:
-  variables:
-    IMAGE_REPO_NAME: brain-tasks-app
-    AWS_REGION: us-east-1
-    ECR_REGISTRY: 517798688958.dkr.ecr.us-east-1.amazonaws.com
-
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 517798688958.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $IMAGE_REPO_NAME .
-      - docker tag $IMAGE_REPO_NAME:latest $ECR_REGISTRY/$IMAGE_REPO_NAME:latest
+      - docker build -t brain-tasks-app .
+      - docker tag brain-tasks-app:latest 517798688958.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - docker push $ECR_REGISTRY/$IMAGE_REPO_NAME:latest
+      - echo Pushing Docker image to ECR...
+      - docker push 517798688958.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest
+      - echo Writing image definition file...
+      - printf '[{"name":"brain-tasks-app","imageUri":"517798688958.dkr.ecr.us-east-1.amazonaws.com/brain-tasks-app:latest"}]' > imagedefinitions.json
 
 artifacts:
   files:
-    - '**/*'
+    - appspec.yml
+    - deployment.yaml
+    - service.yaml
+    - imagedefinitions.json
