@@ -11,5 +11,16 @@ spec:
   ports:
     - protocol: TCP
       port: 80          # external port (user-facing)
-      targetPort: 3000  # container port
-
+      tapiVersion: v1
+kind: Service
+metadata:
+  name: brain-tasks-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: brain-tasks
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+argetPort: 3000  # container port
