@@ -1,4 +1,6 @@
-FROM node:18
+# FROM node:18
+FROM public.ecr.aws/docker/library/node:18
+
 WORKDIR /app
 
 # Copy only the dist folder (already built)
