@@ -1,4 +1,5 @@
 🧠 Brain Tasks App – AWS CI/CD Deployment on EKS
+<img width="824" height="382" alt="Brain_Task_images" src="https://github.com/user-attachments/assets/95864dc7-2c51-45ee-8b01-8df7a6250996" />
 🚀 Overview
 
 This project demonstrates a complete AWS DevOps pipeline to deploy the Brain Tasks App using Docker, ECR, CodeBuild, CodeDeploy, CodePipeline, and EKS, with CloudWatch monitoring for build, deploy, and application logs.
